@@ -4,6 +4,11 @@ A full-featured payroll and payslip management application built with **Golang**
 
 ---
 
+## 🎥 Demo Video
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/mulgoeVDFRg/0.jpg)](https://www.youtube.com/watch?v=mulgoeVDFRg)
+
+
+
 ## 📌 Table of Contents
 
 - [About](#about)
