@@ -8,6 +8,7 @@ MIGRATIONS=db/migrations
 docs-init:
 	@swag init -g cmd/api/main.go
 run:
+	@make docs-init
 	@go run cmd/api/main.go
 migrate-up:
 	@goose -dir $(MIGRATIONS) postgres "$(DB_DSN)" up
