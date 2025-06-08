@@ -2,6 +2,8 @@ package repository
 
 import "github.com/dwilanang/psp/internal/user/model"
 
+//go:generate mockgen -source=user.repository.go -package=mocks -destination=mocks/mock_user_repository.go
+
 // Repository defines the interface for data access operations related to the User entity
 // and associated salary records. It includes methods for retrieving users and creating users and salaries.
 type Repository interface {

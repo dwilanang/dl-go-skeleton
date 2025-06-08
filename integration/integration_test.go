@@ -1,7 +1,14 @@
 package integration
 
 import (
+	"bytes"
+	"encoding/json"
+	"net/http"
+	"net/http/httptest"
+	"testing"
+
 	"github.com/dwilanang/psp/internal/admin"
+	"github.com/dwilanang/psp/internal/admin/dto"
 	"github.com/dwilanang/psp/internal/admin/handler"
 	"github.com/dwilanang/psp/internal/admin/repository"
 	"github.com/dwilanang/psp/internal/admin/service"
@@ -30,23 +37,23 @@ func setupRouter() *gin.Engine {
 	return r
 }
 
-// func Test_CreateAttendancePeriod_Endpoint(t *testing.T) {
-// 	router := setupRouter()
+func Test_CreateAttendancePeriod_Endpoint(t *testing.T) {
+	router := setupRouter()
 
-// 	// Payload
-// 	reqBody := dto.AttendancePeriodRequest{
-// 		StartDate: "2025-06-05",
-// 		EndDate:   "2025-06-10",
-// 	}
-// 	jsonBody, _ := json.Marshal(reqBody)
+	// Payload
+	reqBody := dto.AttendancePeriodRequest{
+		StartDate: "2025-06-05",
+		EndDate:   "2025-06-10",
+	}
+	jsonBody, _ := json.Marshal(reqBody)
 
-// 	w := httptest.NewRecorder()
-// 	req, _ := http.NewRequest("POST", "/admin/attendance-periods", bytes.NewBuffer(jsonBody))
-// 	req.Header.Set("Content-Type", "application/json")
+	w := httptest.NewRecorder()
+	req, _ := http.NewRequest("POST", "/admin/attendance-periods", bytes.NewBuffer(jsonBody))
+	req.Header.Set("Content-Type", "application/json")
 
-// 	router.ServeHTTP(w, req)
+	router.ServeHTTP(w, req)
 
-// 	if w.Code != http.StatusCreated {
-// 		t.Errorf("Expected status 201, got %d. Body: %s", w.Code, w.Body.String())
-// 	}
-// }
+	if w.Code != http.StatusCreated {
+		t.Errorf("Expected status 201, got %d. Body: %s", w.Code, w.Body.String())
+	}
+}

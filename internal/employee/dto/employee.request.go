@@ -15,7 +15,7 @@ type OvertimeRequest struct {
 
 type ReimbursementRequest struct {
 	Amount      int64  `json:"amount" binding:"required"`
-	Description string `json:"description" binding:"required"`
+	Description string `json:"description"`
 	UserID      int64  `json:"user_id" swaggerignore:"true"`
 	Date        string `json:"date" binding:"required"`
 	By          int64  `json:"by" swaggerignore:"true"`

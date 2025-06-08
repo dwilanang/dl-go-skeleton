@@ -7,21 +7,11 @@ A full-featured payroll and payslip management application built with **Golang**
 ## 🎥 Demo Video
 [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/mulgoeVDFRg/0.jpg)](https://www.youtube.com/watch?v=mulgoeVDFRg)
 
-
-Login demo
-----------------------------
-Super Admin
-username : superadmin
-password : user001
------------------------------
-Admim
-username : admin
-password : user002
------------------------------
-Employee
-username : user003 -> user102
-password : user003 -> user102
------------------------------
+> [!NOTE]
+> Login demo
+> Super Admin | username : superadmin | password : user001
+> Admin | username : admin | password : user002
+> Employee | username : user003 -> user102 | ppassword : user003 -> user102
 
 ## 📌 Table of Contents
 
