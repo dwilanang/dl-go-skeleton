@@ -2,6 +2,8 @@ package repository
 
 import "github.com/dwilanang/psp/internal/role/model"
 
+//go:generate mockgen -source=role.repository.go -package=mocks -destination=mocks/mock_role_repository.go
+
 // Repository defines an interface for data operations related to the Role entity.
 // It provides methods for basic CRUD operations and fetching by ID.
 type Repository interface {

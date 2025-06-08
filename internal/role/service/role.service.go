@@ -4,6 +4,8 @@ import (
 	"github.com/dwilanang/psp/internal/role/dto"
 )
 
+//go:generate mockgen -source=role.service.go -package=rolemock -destination=../../rolemock/mock_role_service.go
+
 // Service defines the interface for business logic related to the Role entity.
 // It provides methods to retrieve, create, update, and delete roles.
 type Service interface {
