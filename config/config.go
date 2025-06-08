@@ -11,6 +11,7 @@ type Config struct {
 	AppName       string
 	AppPort       string
 	DBDriver      string
+	DBHost        string
 	DBName        string
 	DBPassword    string
 	DBUser        string
@@ -30,6 +31,8 @@ func LoadConfig() *Config {
 		AppName:       getEnv("APP_NAME", "payslip-service"),
 		AppPort:       getEnv("APP_PORT", "8000"),
 		DBDriver:      getEnv("DB_DRIVER", "postgres"),
+		DBHost:        getEnv("DB_HOST", "localhost"),
+		DBPort:        getEnv("DB_PORT", ""),
 		DBName:        getEnv("DB_NAME", ""),
 		DBUser:        getEnv("DB_USER", ""),
 		DBPassword:    getEnv("DB_PASSWORD", ""),

@@ -1,0 +1,48 @@
+services:
+   app:
+      build:
+         context: .
+      container_name: ppms
+      ports:
+         - 8000:8000
+      environment:
+         - "ENV=local"
+         - "DB_HOST=${DB_DRIVER}" # Ini harus hostname service DB di Docker Compose
+         - "DB_PORT=${DB_PORT}"     # Ini harus port internal container DB
+         - "DB_USER=${DB_USER}" # Ambil dari .env host, lalu diteruskan ke container
+         - "DB_PASSWORD=${DB_PASSWORD}" # Ambil dari .env host, lalu diteruskan ke container
+         - "DB_NAME=${DB_NAME}"    
+      volumes:
+         - ./:/go/src/ppms
+      networks:
+         - local
+      depends_on: 
+         - postgres  
+    
+   postgres:
+      image: postgres:16
+      container_name: postgres-ppms
+      restart: always
+      environment:
+         POSTGRES_DB: ppms
+         POSTGRES_PASSWORD: abc123
+         POSTGRES_USER: user_123
+         # PGDATA: /var/lib/postgresql/data # <--- REMOVE OR COMMENT THIS LINE to use default
+      volumes:
+         # If PGDATA is removed, this becomes:
+         - ./.docker/postgres-data:/var/lib/postgresql/data # <--- Maps to default PGDATA
+         - ./.docker/database_scripts:/docker-entrypoint-initdb.d
+         - ./.docker/seeding/seeds:/seeds
+      ports:
+         - "5430:5430"
+      networks:
+         - local
+      healthcheck: # <-- Highly recommended for database readiness
+         test: ["CMD-SHELL", "pg_isready -U user_123 -d ppms"] # Use your actual user/db from .env or hardcode
+         interval: 5s
+         timeout: 5s
+         retries: 5
+
+networks:
+   local:
+      driver: bridge

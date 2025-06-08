@@ -101,10 +101,9 @@ func healthCheckDB(name string) error {
 }
 
 func setupDB(cfg *config.Config) {
-
 	dbConfig := Config{
 		Driver:       cfg.DBDriver,
-		MasterDSN:    fmt.Sprintf("user=%s password=%s dbname=%s sslmode=disable", cfg.DBUser, cfg.DBPassword, cfg.DBName),
+		MasterDSN:    fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable", cfg.DBHost, cfg.DBPort, cfg.DBUser, cfg.DBPassword, cfg.DBName),
 		SlaveDSN:     "",
 		MaxOpenConns: 10,
 		MaxIdleConns: 5,
