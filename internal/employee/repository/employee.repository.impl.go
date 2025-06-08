@@ -242,6 +242,9 @@ func (r *repository) GetPayrollByID(userID int64) (int64, error) {
 	`
 	err := r.db.Get(&periodID, query, userID)
 	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return periodID, errors.New("not_found")
+		}
 		return periodID, err
 	}
 

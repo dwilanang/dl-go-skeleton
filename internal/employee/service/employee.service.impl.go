@@ -332,6 +332,9 @@ func (s *service) GenerateEmployeePayslip(userID, payrollID int64) (*dto.Employe
 	periodID, err := s.repo.GetPayrollByID(payrollID)
 	if err != nil {
 		fmt.Println("s.repo.GetPayrollByID() error: ", err)
+		if err.Error() == "not_found" {
+			return &dto.EmployeePayslip{}, errors.New("payroll for this period has not been processed yet.")
+		}
 		return &dto.EmployeePayslip{}, err
 	}
 
