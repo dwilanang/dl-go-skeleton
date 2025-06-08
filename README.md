@@ -42,10 +42,6 @@ password : user003 -> user102
 ## 📖 About
 
 This system allows **admins** to manage employee salary components, generate payrolls based on attendance, overtime, and reimbursement data, and produce itemized payslips. It enforces role-based access, JWT authentication, and supports Swagger for API documentation.
-
-## 🎥 Demo Video
-
-https://github.com/user-attachments/assets/a591a466-1027-473c-a727-59a25aba4599
 ---
 
 ## 🚀 Features
