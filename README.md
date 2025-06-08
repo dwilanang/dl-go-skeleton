@@ -156,7 +156,7 @@ createdb ppms_db
 make migrate-up
 
 # Run application
-go run cmd/api/main.go
+make run
 ```
 
 ---
