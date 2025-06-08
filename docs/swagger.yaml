@@ -1,0 +1,1088 @@
+basePath: /api/v1
+definitions:
+  dto.AdminResponse:
+    properties:
+      data: {}
+      message:
+        type: string
+    type: object
+  dto.AttendanceData:
+    properties:
+      date_attendance:
+        type: string
+      id:
+        type: integer
+      status:
+        type: string
+    type: object
+  dto.AttendancePeriodData:
+    properties:
+      end_date:
+        type: string
+      id:
+        type: integer
+      start_date:
+        type: string
+    type: object
+  dto.AttendancePeriodRequest:
+    properties:
+      end_date:
+        type: string
+      start_date:
+        type: string
+    required:
+    - end_date
+    - start_date
+    type: object
+  dto.AttendancePeriodResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/dto.AttendancePeriodData'
+        type: array
+      limit:
+        type: integer
+      page:
+        type: integer
+      total_pages:
+        type: integer
+      total_record:
+        type: integer
+    type: object
+  dto.AttendanceRequest:
+    properties:
+      date:
+        type: string
+    required:
+    - date
+    type: object
+  dto.AttendanceResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/dto.AttendanceData'
+        type: array
+      limit:
+        type: integer
+      page:
+        type: integer
+      total_pages:
+        type: integer
+      total_record:
+        type: integer
+    type: object
+  dto.AuditLogData:
+    properties:
+      action:
+        type: string
+      full_name:
+        type: string
+      id:
+        type: integer
+      ip_address:
+        type: string
+      record_id:
+        type: integer
+      request_id:
+        type: string
+      table_name:
+        type: string
+    type: object
+  dto.AuditLogResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/dto.AuditLogData'
+        type: array
+      limit:
+        type: integer
+      page:
+        type: integer
+      total_pages:
+        type: integer
+      total_record:
+        type: integer
+    type: object
+  dto.AuthRequest:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - username
+    type: object
+  dto.AuthResponse:
+    properties:
+      expire:
+        type: string
+      token:
+        type: string
+      type:
+        type: string
+    type: object
+  dto.EmployeeResponse:
+    properties:
+      data: {}
+      message:
+        type: string
+    type: object
+  dto.OvertimeData:
+    properties:
+      hourse:
+        type: integer
+      id:
+        type: integer
+      overtime_at:
+        type: string
+      status:
+        type: string
+    type: object
+  dto.OvertimeRequest:
+    properties:
+      date:
+        type: string
+      hours:
+        type: integer
+    required:
+    - date
+    - hours
+    type: object
+  dto.OvertimeResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/dto.OvertimeData'
+        type: array
+      limit:
+        type: integer
+      page:
+        type: integer
+      total_pages:
+        type: integer
+      total_record:
+        type: integer
+    type: object
+  dto.PayrollRequest:
+    properties:
+      period_id:
+        type: integer
+    type: object
+  dto.PayrollsResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/dto.PayrollsResponseData'
+        type: array
+      limit:
+        type: integer
+      page:
+        type: integer
+      total_pages:
+        type: integer
+      total_record:
+        type: integer
+    type: object
+  dto.PayrollsResponseData:
+    properties:
+      end_date:
+        type: string
+      id:
+        type: integer
+      processed_at:
+        type: string
+      start_date:
+        type: string
+      status:
+        type: string
+    type: object
+  dto.ReimbursementData:
+    properties:
+      amount:
+        type: number
+      description:
+        type: string
+      full_name:
+        type: string
+      id:
+        type: integer
+    type: object
+  dto.ReimbursementRequest:
+    properties:
+      amount:
+        type: integer
+      date:
+        type: string
+      description:
+        type: string
+    required:
+    - amount
+    - date
+    - description
+    type: object
+  dto.ReimbursementResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/dto.ReimbursementData'
+        type: array
+      limit:
+        type: integer
+      page:
+        type: integer
+      total_pages:
+        type: integer
+      total_record:
+        type: integer
+    type: object
+  dto.RoleRequest:
+    properties:
+      name:
+        type: string
+      privilege:
+        type: string
+    required:
+    - name
+    - privilege
+    type: object
+  dto.RoleResponse:
+    properties:
+      data: {}
+      message:
+        type: string
+    type: object
+  dto.UserData:
+    properties:
+      full_name:
+        type: string
+      username:
+        type: string
+    type: object
+  dto.UserRequest:
+    properties:
+      by:
+        type: integer
+      full_name:
+        type: string
+      password:
+        type: string
+      role_id:
+        type: integer
+      username:
+        type: string
+    required:
+    - full_name
+    - password
+    - role_id
+    - username
+    type: object
+  dto.UserResponse:
+    properties:
+      data:
+        $ref: '#/definitions/dto.UserData'
+    type: object
+  dto.UserSalaryRequest:
+    properties:
+      amount:
+        type: number
+      effective_from:
+        type: string
+      user_id:
+        type: integer
+    required:
+    - amount
+    - effective_from
+    - user_id
+    type: object
+  dto.UserSalaryResponse:
+    properties:
+      amount:
+        type: number
+      full_name:
+        type: string
+    type: object
+host: localhost:8000
+info:
+  contact: {}
+  description: API untuk manajemen payslip.
+  title: Payslip API
+  version: "1.0"
+paths:
+  /admin/attendance-periods:
+    post:
+      consumes:
+      - application/json
+      description: Create a new attendance period
+      parameters:
+      - description: attendance period create payload
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.AttendancePeriodRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.AdminResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Create attendance period
+      tags:
+      - admin
+  /admin/attendance-periods/all:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves a list of attendance period with pagination.
+      parameters:
+      - description: 'Page number (default: 1)'
+        in: query
+        name: page
+        type: integer
+      - description: 'Items per page (default: 20)'
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.AttendancePeriodResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: List of attendance period
+      tags:
+      - admin
+  /admin/payroll:
+    post:
+      consumes:
+      - application/json
+      description: Create a new payroll
+      parameters:
+      - description: period create payload
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.PayrollRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.AdminResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Create payroll
+      tags:
+      - admin
+  /admin/payroll/{id}/process:
+    put:
+      consumes:
+      - application/json
+      description: Run a new payroll
+      parameters:
+      - description: Payroll ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.AdminResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Run payroll
+      tags:
+      - admin
+  /admin/payroll/{id}/summary:
+    get:
+      consumes:
+      - application/json
+      description: Summary a payroll
+      parameters:
+      - description: Payroll ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 'Page number (default: 1)'
+        in: query
+        name: page
+        type: integer
+      - description: 'Items per page (default: 20)'
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.AdminResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Summary payroll
+      tags:
+      - admin
+  /admin/payroll/all:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves a list of payroll with pagination.
+      parameters:
+      - description: 'Page number (default: 1)'
+        in: query
+        name: page
+        type: integer
+      - description: 'Items per page (default: 20)'
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.PayrollsResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: List of payroll
+      tags:
+      - admin
+  /auditlogs/all:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves a list of audit logs with pagination.
+      parameters:
+      - description: 'Page number (default: 1)'
+        in: query
+        name: page
+        type: integer
+      - description: 'Items per page (default: 20)'
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.AuditLogResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: List of audit logs
+      tags:
+      - auditlogs
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Authenticate user and return JWT token
+      parameters:
+      - description: Login credentials
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.AuthRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.AuthResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Login user
+      tags:
+      - auth
+  /employee/attendance:
+    post:
+      consumes:
+      - application/json
+      description: Create a new attendance employee
+      parameters:
+      - description: attendance create payload
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.AttendanceRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.EmployeeResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Create attendance employee
+      tags:
+      - employee
+  /employee/attendance/all:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves a list of attendacne with pagination.
+      parameters:
+      - description: 'Page number (default: 1)'
+        in: query
+        name: page
+        type: integer
+      - description: 'Items per page (default: 20)'
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.AttendanceResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: List of attendacne
+      tags:
+      - employee
+  /employee/overtime:
+    post:
+      consumes:
+      - application/json
+      description: Create a new overtime employee
+      parameters:
+      - description: overtime create payload
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.OvertimeRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.EmployeeResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Create overtime employee
+      tags:
+      - employee
+  /employee/overtime/all:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves a list of overtime with pagination.
+      parameters:
+      - description: 'Page number (default: 1)'
+        in: query
+        name: page
+        type: integer
+      - description: 'Items per page (default: 20)'
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.OvertimeResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: List of overtime
+      tags:
+      - employee
+  /employee/payslip/{id}:
+    get:
+      consumes:
+      - application/json
+      description: View detailed payslip for an employee for a specific payroll
+      parameters:
+      - description: Payroll ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.EmployeeResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get employee payslip
+      tags:
+      - employee
+  /employee/reimbursement:
+    post:
+      consumes:
+      - application/json
+      description: Create a new reimbursement employee
+      parameters:
+      - description: reimbursement create payload
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.ReimbursementRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.EmployeeResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Create reimbursement employee
+      tags:
+      - employee
+  /employee/reimbursement/all:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves a list of reimbursement with pagination.
+      parameters:
+      - description: 'Page number (default: 1)'
+        in: query
+        name: page
+        type: integer
+      - description: 'Items per page (default: 20)'
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.ReimbursementResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: List of reimbursement
+      tags:
+      - employee
+  /roles/all:
+    get:
+      consumes:
+      - application/json
+      description: Get list of all roles
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/dto.RoleResponse'
+            type: array
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get all roles
+      tags:
+      - roles
+  /roles/create:
+    post:
+      consumes:
+      - application/json
+      description: Create a new roles
+      parameters:
+      - description: Roles create payload
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.RoleRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.RoleResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Create roles
+      tags:
+      - roles
+  /roles/delete/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete roles
+      parameters:
+      - description: Role ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.RoleResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Delete roles
+      tags:
+      - roles
+  /roles/update/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Update a new roles
+      parameters:
+      - description: Role ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Roles update payload
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.RoleRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.RoleResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Update roles
+      tags:
+      - roles
+  /users/register:
+    post:
+      consumes:
+      - application/json
+      description: Create a new user
+      parameters:
+      - description: User registration payload
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UserRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.UserResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Register user
+      tags:
+      - user
+  /users/salary:
+    post:
+      consumes:
+      - application/json
+      description: Create a new employee salary
+      parameters:
+      - description: Employee salary payload
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UserSalaryRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.UserSalaryResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: CreateSalary employee salary
+      tags:
+      - user
+securityDefinitions:
+  BearerAuth:
+    description: Type "Bearer" followed by a space and JWT token.
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
