@@ -136,15 +136,22 @@ cd hr-ppms
 # Setup env (edit as needed)
 cp .env.example .env
 
-go install github.com/pressly/goose/v3/cmd/goose@latest
-
 # Setup DB
 createdb ppms_db
 
-make migrate-up
+#Init
+go mod tidy
+
+# Migrate table and data dummy
+go install github.com/pressly/goose/v3/cmd/goose@latest
+
+goose -dir db/migrations postgres "postgres://ppms_user:ppms123@localhost:5432/ppms?sslmode=disable" up
+
+# Generate docs Swagger
+swag init -g cmd/api/main.go
 
 # Run application
-make run
+go run cmd/api/main.go
 ```
 
 ---
