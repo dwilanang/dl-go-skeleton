@@ -34,21 +34,6 @@ func (m *MockService) EXPECT() *MockServiceMockRecorder {
 	return m.recorder
 }
 
-// CreateSalary mocks base method.
-func (m *MockService) CreateSalary(request *dto.UserSalaryRequest) (dto.UserSalaryResponse, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CreateSalary", request)
-	ret0, _ := ret[0].(dto.UserSalaryResponse)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// CreateSalary indicates an expected call of CreateSalary.
-func (mr *MockServiceMockRecorder) CreateSalary(request interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateSalary", reflect.TypeOf((*MockService)(nil).CreateSalary), request)
-}
-
 // Register mocks base method.
 func (m *MockService) Register(request *dto.UserRequest) (dto.UserResponse, error) {
 	m.ctrl.T.Helper()

@@ -48,23 +48,3 @@ func (s *service) Register(request *dto.UserRequest) (dto.UserResponse, error) {
 		},
 	}, err
 }
-
-// CreateSalary implements the Service interface.
-func (s *service) CreateSalary(request *dto.UserSalaryRequest) (dto.UserSalaryResponse, error) {
-
-	us := &model.UserSalary{
-		UserID:        request.UserID,
-		Amount:        request.Amount,
-		EffectiveFrom: request.EffectiveFrom,
-	}
-
-	err := s.repo.CreateSalary(us)
-	if err != nil {
-		fmt.Println("s.repo.CreateSalary() error: ", err)
-	}
-
-	return dto.UserSalaryResponse{
-		FullName: us.FullName,
-		Amount:   us.Amount,
-	}, err
-}

@@ -6,10 +6,8 @@ import (
 	"github.com/dwilanang/psp/config"
 	_ "github.com/dwilanang/psp/docs"
 	"github.com/dwilanang/psp/infrastructure/db/postgres"
-	adminroute "github.com/dwilanang/psp/internal/admin/route"
-	auditlogsroute "github.com/dwilanang/psp/internal/auditlogs/route"
+
 	authroute "github.com/dwilanang/psp/internal/auth/route"
-	employeeroute "github.com/dwilanang/psp/internal/employee/route"
 	"github.com/dwilanang/psp/internal/middleware"
 	"github.com/dwilanang/psp/internal/registry"
 	roleroute "github.com/dwilanang/psp/internal/role/route"
@@ -20,9 +18,9 @@ import (
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
-// @title Payslip API
+// @title GO SKELETON API
 // @version 1.0
-// @description API untuk manajemen payslip.
+// @description go skeleton project API
 // @host localhost:8000
 // @BasePath /api/v1
 
@@ -56,15 +54,9 @@ func main() {
 
 	api.Use(middleware.JWTAuthMiddleware(cfg.JWTSecret))
 
-	audit := middleware.NewAuditMiddleware(dbPostgres)
-	api.Use(audit.Handler())
-
 	// Register all feature routes here, keep it simple
 	roleroute.RegisterRoutes(api, registry)
 	userroute.RegisterRoutes(api, registry)
-	adminroute.RegisterRoutes(api, registry)
-	employeeroute.RegisterRoutes(api, registry)
-	auditlogsroute.RegisterRoutes(api, registry)
 
 	fmt.Println("Server is running on port ", cfg.AppPort)
 	r.Run(fmt.Sprintf(":%s", cfg.AppPort))

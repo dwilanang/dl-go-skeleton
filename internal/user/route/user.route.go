@@ -13,7 +13,5 @@ func RegisterRoutes(rg *gin.RouterGroup, registry *registry.Registry) {
 	{
 		usersGroup.Use(middleware.RequireRole("SUPERADMIN"))
 		usersGroup.POST("/register", h.Register)
-		usersGroup.POST("/salary", h.CreateSalary)
-		usersGroup.POST("/refresh-token", h.CreateSalary)
 	}
 }

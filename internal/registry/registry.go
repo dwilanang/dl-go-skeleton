@@ -2,11 +2,6 @@ package registry
 
 import (
 	"github.com/dwilanang/psp/config"
-	"github.com/dwilanang/psp/internal/admin"
-	adminhandler "github.com/dwilanang/psp/internal/admin/handler"
-	adminrepository "github.com/dwilanang/psp/internal/admin/repository"
-	adminservice "github.com/dwilanang/psp/internal/admin/service"
-	"github.com/dwilanang/psp/internal/auditlogs"
 	authhandler "github.com/dwilanang/psp/internal/auth/handler"
 	authservice "github.com/dwilanang/psp/internal/auth/service"
 	"github.com/dwilanang/psp/internal/role"
@@ -17,15 +12,6 @@ import (
 	userhandler "github.com/dwilanang/psp/internal/user/handler"
 	userrepository "github.com/dwilanang/psp/internal/user/repository"
 	userservice "github.com/dwilanang/psp/internal/user/service"
-
-	"github.com/dwilanang/psp/internal/employee"
-	employeehandler "github.com/dwilanang/psp/internal/employee/handler"
-	employeerepository "github.com/dwilanang/psp/internal/employee/repository"
-	employeeservice "github.com/dwilanang/psp/internal/employee/service"
-
-	auditlogshandler "github.com/dwilanang/psp/internal/auditlogs/handler"
-	auditlogsrepository "github.com/dwilanang/psp/internal/auditlogs/repository"
-	auditlogsservice "github.com/dwilanang/psp/internal/auditlogs/service"
 
 	"github.com/jmoiron/sqlx"
 )
@@ -71,38 +57,6 @@ func (r *Registry) NewUserHandler() *userhandler.Handler {
 	repo := userrepository.NewRepository(r.db) // Reusable user repository
 	svc := userservice.NewService(repo)        // Service to handle user-related business logic
 	return userhandler.NewHandler(user.Dependencies{
-		DBPostgres: r.db,
-		Service:    svc,
-	})
-}
-
-// NewAdminHandler returns a fully-initialized AdminHandler.
-// It provides access to admin-specific features such as admin account management.
-func (r *Registry) NewAdminHandler() *adminhandler.Handler {
-	repo := adminrepository.NewRepository(r.db) // Repository for admin data operations
-	svc := adminservice.NewService(repo)        // Service layer encapsulating admin logic
-	return adminhandler.NewHandler(admin.Dependencies{
-		DBPostgres: r.db,
-		Service:    svc,
-	})
-}
-
-// NewEmployeeHandler returns a fully-initialized EmployeeHandler.
-// This handler manages employee-related features, potentially requiring access to both employee and admin data.
-func (r *Registry) NewEmployeeHandler() *employeehandler.Handler {
-	adminRepo := adminrepository.NewRepository(r.db)           // Admin repository needed for employee context
-	employeeRepo := employeerepository.NewRepository(r.db)     // Repository for employee-specific data
-	svc := employeeservice.NewService(employeeRepo, adminRepo) // Business logic layer combining employee and admin data
-	return employeehandler.NewHandler(employee.Dependencies{
-		DBPostgres: r.db,
-		Service:    svc,
-	})
-}
-
-func (r *Registry) NewAuditLogsHandler() *auditlogshandler.Handler {
-	auditlogsRepo := auditlogsrepository.NewRepository(r.db)
-	svc := auditlogsservice.NewService(auditlogsRepo)
-	return auditlogshandler.NewHandler(auditlogs.Dependencies{
 		DBPostgres: r.db,
 		Service:    svc,
 	})

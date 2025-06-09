@@ -1,19 +1,7 @@
-# 🧾 Payroll & Payslip Management System
+# 🧾 Go Skeleton API
 
-A full-featured payroll and payslip management application built with **Golang** and **PostgreSQL**, designed to automate salary calculations, attendance tracking, overtime, and reimbursement management.
-
+A robust API with **Golang** and **PostgreSQL**.
 ---
-
-## 🎥 Demo Video
-[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/mulgoeVDFRg/0.jpg)](https://www.youtube.com/watch?v=mulgoeVDFRg)
-
-```
-                | Usernmae            | Password               |
-                | ------------------- | -----------------------|
-Super Admin     | superadmin          | user001                |
-Admin           | admin               | user002                |
-Employee        | user003 -> user102  | user003 -> user102     |
-```
 
 ## 📌 Table of Contents
 
@@ -29,26 +17,11 @@ Employee        | user003 -> user102  | user003 -> user102     |
 - [Development Notes](#development-notes)
 - [License](#license)
 
----
-
-## 📖 About
-
-This system allows **admins** to manage employee salary components, generate payrolls based on attendance, overtime, and reimbursement data, and produce itemized payslips. It enforces role-based access, JWT authentication, and supports Swagger for API documentation.
----
-
 ## 🚀 Features
 
-- ✅ JWT Authentication with role-based access (`admin`, `employee`)
-- ✅ CRUD for Users and Salaries
-- ✅ Attendance (daily records)
-- ✅ Overtime tracking with hourly constraints
-- ✅ Reimbursement management with optional descriptions
-- ✅ Payroll period management (`pending`, `processed`)
-- ✅ Automatic payroll calculation per employee per period
-- ✅ Detailed payslip generation in JSON
-- ✅ Swagger API documentation
-- ✅ Audit timestamps (created_at, updated_at)
-- ✅ Database seeding with fake users for development
+- ✅ JWT Authentication with role-based access (`SUPERADMIN`, `ADMIN`, `EMPLOYEE`)
+- ✅ Swagger API Documentation
+- ✅ Database Seeding with Fake Users for Development
 
 ---
 
@@ -56,13 +29,12 @@ This system allows **admins** to manage employee salary components, generate pay
 
 - **Backend**: Go (Golang)
 - **Database**: PostgreSQL
-- **ORM**: GORM
+- **ORM**: SQLX
 - **Migration Tool**: Goose
 - **Router**: Gin
 - **Authentication**: JWT
-- **Documentation**: Swagger (via `swaggo/gin-swagger`)
-- **Testing**: Go test
-- **Seeding**: Custom Goose script with Faker
+- **Documentation**: Swagger (`swaggo/gin-swagger`)
+- **Testing**: Go test, sqlmock, testify
 
 ---
 
@@ -73,7 +45,7 @@ psp/
 ├── cmd/                # Application entry points (main.go)
 │   └── api/
 │       └── main.go
-├── config/             # Configuration files and utilities
+├── config/             # Configuration loader
 │   └── config.go
 ├── db/
 │   └── migrations/     # Database migration scripts
@@ -83,15 +55,14 @@ psp/
 │   └── db/
 │       └── postgres/   # Postgres connection and helpers
 ├── internal/
-│   ├── admin/          # Admin domain (service, handler, repository, dto, model)
-│   ├── auditlogs/      # Audit logs domain
 │   ├── auth/           # Authentication (JWT, login, middleware)
-│   ├── employee/       # Employee domain
 │   ├── middleware/     # Custom Gin middleware
 │   ├── registry/       # Dependency injection registry
 │   ├── role/           # Role management
 │   ├── user/           # User management
 │   └── ...             # Other business domains
+├── pkg/
+│   └── logger/         # Logging utilities
 ├── utils/              # Utility functions (request, response, etc)
 ├── go.mod
 ├── go.sum
@@ -99,30 +70,14 @@ psp/
 ```
 
 **Key folders:**
-- `cmd/`: Entry point for the application.
-- `config/`: Application configuration loader.
+- `cmd/`: Application entry point.
+- `config/`: Loads application configuration.
 - `db/migrations/`: Goose migration scripts.
 - `docs/`: Swagger/OpenAPI documentation.
 - `infrastructure/`: Database connection and low-level utilities.
-- `internal/`: Main business logic, organized per domain (admin, user, auth, etc).
+- `internal/`: Main business logic, organized per domain (auth, user, role, etc).
+- `pkg/`: Shared packages (e.g., logger).
 - `utils/`: Shared utility functions.
-
----
-
-## 🧱 Database Structure
-
-Core tables include:
-
-- `users`: Master user data with role control
-- `user_salaries`: Salary history with effective dates
-- `attendances`: Daily attendance per user
-- `overtimes`: Overtime record (limited to 3 hours/day)
-- `reimbursements`: Expense claims per period
-- `attendance_periods`: Defines salary period range and status
-- `payrolls`: Processed payrolls per user per period
-- `payslips`: JSON-based salary breakdown
-
-Migration scripts are stored in `/db/migrations`.
 
 ---
 
@@ -130,27 +85,30 @@ Migration scripts are stored in `/db/migrations`.
 
 ```bash
 # Clone the project
-git clone https://github.com/dwilanang/hr-ppms.git
-cd hr-ppms
+git clone https://github.com/dwilanang/go-skeleton.git
 
-# Setup env (edit as needed)
+cd go-skeleton
+
+# Setup environment variables
 cp .env.example .env
 
-# Setup DB
-createdb ppms_db
+# Setup database
+# create database
 
-#Init
+# Install dependencies
 go mod tidy
 
-# Migrate table and data dummy
+# Run database migrations and seed dummy data
+# design database dbdiagram.io > export to postgresql
+
 go install github.com/pressly/goose/v3/cmd/goose@latest
 
 goose -dir db/migrations postgres "postgres://[DB_USER]:[DB_PASSWORD]@[DB_HOST]:[DB_PORT]/[DB_NAME]?sslmode=disable" up
 
-# Generate docs Swagger
+# Generate Swagger docs
 swag init -g cmd/api/main.go
 
-# Run application
+# Run the application
 go run cmd/api/main.go
 ```
 
@@ -158,8 +116,8 @@ go run cmd/api/main.go
 
 ## 🚦 Usage
 
-- Access the API at `http://localhost:8080/api/v1`
-- Use Swagger UI for API documentation and testing endpoints.
+- Access the API at `http://localhost:8000/api/v1`
+- Use Swagger UI for API documentation and endpoint testing at `http://localhost:8000/swagger/index.html`
 
 ---
 
@@ -183,9 +141,15 @@ To seed development data, use the provided Goose migration scripts or custom see
 - Use `goose` for database migrations.
 - Run tests with `go test ./...`
 - Update Swagger docs with `swag init` (if using swaggo).
+- Clean architecture: business logic is separated by domain in `internal/`.
+- Dependency injection is managed via the registry pattern.
 
 ---
 
 ## 📄 License
 
 MIT License. See [LICENSE](LICENSE) for details.
+
+---
+
+**Contributions, bug reports, and suggestions are welcome!**
