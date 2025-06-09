@@ -145,7 +145,7 @@ go mod tidy
 # Migrate table and data dummy
 go install github.com/pressly/goose/v3/cmd/goose@latest
 
-goose -dir db/migrations postgres "postgres://ppms_user:ppms123@localhost:5432/ppms?sslmode=disable" up
+goose -dir db/migrations postgres "postgres://[DB_USER]:[DB_PASSWORD]@[DB_HOST]:[DB_PORT]/[DB_NAME]?sslmode=disable" up
 
 # Generate docs Swagger
 swag init -g cmd/api/main.go
